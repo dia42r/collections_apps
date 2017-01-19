@@ -2,12 +2,56 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}Collection master {% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('vendors/bootstrap/dist/css/bootstrap.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/collectmaster.css') }}">
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="container">
+            {% block menu %}
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <a href="#" class="navbar-brand">CollectMaster</a>
+                        </div>
+                        <div id="navbar" class="navbar-collapse collapse">
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a href="#"> Home </a></li>
+                                <li><a href="{{ path('items') }}"> Collections </a></li>
+                            </ul>
+                            <a href="{{ path('fos_user_security_login') }}" class="pull-right btn btn-info account">Login</a>
+                        </div> <!-- / .nav-collapse -->
+                    </div> <!-- / .container-fluid -->
+                </nav>
+                {% if app.user %}
+                    <div class="text-right">
+                        Hello {{ app.user.username }} | <a href="{{ path('fos_user_security_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+
+            {% endblock %}
+            {% for message in app.session.flashBag.get('infos')  %}
+
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+            {% for message in app.session.flashBag.get('errors')  %}
+
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+            {% block main %}
+
+            {% endblock %}
+        </div>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

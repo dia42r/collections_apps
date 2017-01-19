@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+{% block main %}
+    <div class="container">
+
+        <p>Filter by :
+
+            {% for collection in collections  %}
+                <a class="label label-info">{{ collection.collection }}</a>
+            {% endfor %}
+
+        </p>
+        <p><a href="{{ path('item') }} " class="btn btn-primary">Add Post </a></p>
+
+        {% for item in  items %}
+
+           <a href="{{  path('item',{ 'id':item.id }) }}"> {{ item.title }} </a>
+
+            <!-- le role admin peut editer et supprimer tous les posts   -->
+            {% if app.user.hasRole('ROLE_ADMIN') %}
+
+                |   <a href="{{ path('removeItem', {'id': item.id} ) }}">Remove</a>
+                |   <a href="{{ path('item_edit', {'id': item.id} ) }}">Edit</a>
+
+            {% endif %}
+
+            <!--  si user connecté est l'auteur du post, il peut editer et supprimer -->
+            {% if item.author(app.user) %}
+
+                |   <a href="{{ path('removeItem', {'id': item.id} ) }}">Remove</a>
+                |   <a href="{{ path('item_edit', {'id': item.id} ) }}">Edit</a>
+
+            {% endif %}
+
+            <br />
+
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
+

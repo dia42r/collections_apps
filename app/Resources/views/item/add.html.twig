@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+{% block main %}
+
+    {{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.code) }}
+    {{ form_row(form.collection) }}
+    {{ form_row(form.imageUrl) }}
+    {{ form_widget(form.submit) }}
+    {{ form_widget(form.update, {'attr': {'class': 'hide' }}) }}
+    {{ form_widget(form.changeOwner, {'attr' : {'class' : 'hide'}}) }}
+    {{ form_end(form) }}
+
+{% endblock %}
+
